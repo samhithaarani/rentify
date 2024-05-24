@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>/* Custom CSS for property details container */
+        .property-details-container {
+            background-color: #e6f2ff; /* Light blue background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        
+        .property-details-container p {
+            margin-bottom: 10px;
+        }
+        
+        .property-details-container a {
+            display: block;
+            margin-top: 20px;
+        }
+        </style>
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="property-details-container">
+            <h3 class="text-center">Property Details</h3>
+            <p><strong>City:</strong> {{ property.city }}</p>
+            <p><strong>Area:</strong> {{ property.area }}</p>
+            <p><strong>House Type:</strong> {{ property.house_type }}</p>
+            {% if property.house_type == "other" %}
+            <p><strong>Other Type:</strong> {{ property.other_type }}</p>
+            {% endif %}
+            <p><strong>Number of Bedrooms:</strong> {{ property.bedrooms }}</p>
+            <p><strong>Number of Bathrooms:</strong> {{ property.bathrooms }}</p>
+            <p><strong>Balcony:</strong> {{ property.balcony|yesno:"Yes,No" }}</p>
+            <p><strong>Swimming Pool:</strong> {{ property.swimming_pool|yesno:"Yes,No" }}</p>
+            <p><strong>Playing Area:</strong> {{ property.playing_area|yesno:"Yes,No" }}</p>
+            <!-- Add a link to go back -->
+            <a href="{% url 'seller_dashboard' %}" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

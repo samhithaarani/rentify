@@ -1,0 +1,34 @@
+<!-- delete_property.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Delete Property</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Are you sure you want to delete this property?</h5>
+                    <p class="card-text">City: {{ property.city }}</p>
+                    <p class="card-text">Area: {{ property.area }}</p>
+                    <p class="card-text">House Type: {{ property.house_type }}</p>
+                    {% if property.house_type == "other" %}
+                        <p class="card-text">Other Type: {{ property.other_type }}</p>
+                    {% endif %}
+                    <p class="card-text">Bedrooms: {{ property.bedrooms }}</p>
+                    <p class="card-text">Bathrooms: {{ property.bathrooms }}</p>
+                    <p class="card-text">Balcony: {{ property.balcony|yesno:"Yes,No" }}</p>
+                    <p class="card-text">Swimming Pool: {{ property.swimming_pool|yesno:"Yes,No" }}</p>
+                    <p class="card-text">Playing Area: {{ property.playing_area|yesno:"Yes,No" }}</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a href="{% url 'seller_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

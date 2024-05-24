@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-end">
+    <div class="col-md-6">
+        <div class="seller-dashboard-form">
+            <h2 class="text-center">Seller Dashboard</h2>
+            <p>Welcome, {{ user }}!</p>
+            <form method="post" id="propertyForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" name="city" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="area">Area:</label>
+                    <input type="text" name="area" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="house_type">House Type:</label>
+                    <select name="house_type" id="house_type" class="form-control" required>
+                        <option value="duplex">Duplex</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="other_type" id="other_type" class="form-control mt-2" placeholder="Please specify" style="display:none;">
+                </div>
+                <div class="form-group">
+                    <label for="bedrooms">Number of Bedrooms:</label>
+                    <input type="number" name="bedrooms" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="bathrooms">Number of Bathrooms:</label>
+                    <input type="number" name="bathrooms" class="form-control" required>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="balcony" class="form-check-input" id="balcony">
+                    <label class="form-check-label" for="balcony">Balcony</label>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="swimming_pool" class="form-check-input" id="swimming_pool">
+                    <label class="form-check-label" for="swimming_pool">Swimming Pool</label>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="playing_area" class="form-check-input" id="playing_area">
+                    <label class="form-check-label" for="playing_area">Playing Area</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="seller-properties-table">
+            <h3 class="text-center">Your Properties</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for property in properties %}
+                    <tr>
+                        <td>{{ property.city }}</td>
+                        <td>{{ property.area }}</td>
+                        <td>{{ property.house_type }}</td>
+                        <td>
+                            <a href="{% url 'view_property' property.id %}" class="btn btn-info btn-sm">View</a>
+                            <a href="{% url 'update_property' property.id %}" class="btn btn-warning btn-sm">Update</a>
+                            <a href="{% url 'delete_property' property.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('house_type').addEventListener('change', function () {
+        var otherTypeField = document.getElementById('other_type');
+        if (this.value === 'other') {
+            otherTypeField.style.display = 'block';
+            otherTypeField.required = true;
+        } else {
+            otherTypeField.style.display = 'none';
+            otherTypeField.required = false;
+        }
+    });
+</script>
+<style>
+    /* Custom CSS for styling seller dashboard form */
+    .seller-dashboard-form {
+        background-color: #e6f2ff; /* Light blue background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-right: 20px; /* Add margin to the right to align with seller info */
+    }
+
+    .seller-dashboard-form label {
+        font-weight: bold;
+    }
+
+    .seller-dashboard-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .seller-dashboard-form input[type="text"],
+    .seller-dashboard-form input[type="number"],
+    .seller-dashboard-form select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif; /* Ensure consistent font family */
+        font-size: 16px; /* Ensure readable font size */
+        color: #333; /* Ensure readable font color */
+        background-color: #fff; /* Ensure contrasting background color */
+    }
+
+    .seller-dashboard-form button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff; /* Bootstrap primary color */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .seller-dashboard-form button[type="submit"]:hover {
+        background-color: #0056b3; /* Darker shade of primary color on hover */
+    }
+
+    .invalid-feedback {
+        display: none;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+
+    .invalid-feedback i {
+        margin-right: 5px;
+    }
+
+    .seller-info {
+        background-color: #f8f9fa; /* Light grey background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .seller-info p {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .seller-info strong {
+        color: #007bff; /* Bootstrap primary color */
+    }
+</style>
+{% endblock %}

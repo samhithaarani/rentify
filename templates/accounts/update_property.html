@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center">Update Property</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" name="city" class="form-control" value="{{ property.city }}" required>
+            </div>
+            <div class="form-group">
+                <label for="area">Area:</label>
+                <input type="text" name="area" class="form-control" value="{{ property.area }}" required>
+            </div>
+            <div class="form-group">
+                <label for="house_type">House Type:</label>
+                <select name="house_type" id="house_type" class="form-control" required>
+                    <option value="duplex" {% if property.house_type == 'duplex' %} selected {% endif %}>Duplex</option>
+                    <option value="apartment" {% if property.house_type == 'apartment' %} selected {% endif %}>Apartment</option>
+                    <option value="villa" {% if property.house_type == 'villa' %} selected {% endif %}>Villa</option>
+                    <option value="other" {% if property.house_type == 'other' %} selected {% endif %}>Other</option>
+                </select>
+                <input type="text" name="other_type" id="other_type" class="form-control mt-2" placeholder="Please specify" style="{% if property.house_type != 'other' %} display:none; {% endif %}" value="{{ property.other_type }}">
+            </div>
+            <div class="form-group">
+                <label for="bedrooms">Number of Bedrooms:</label>
+                <input type="number" name="bedrooms" class="form-control" value="{{ property.bedrooms }}" required>
+            </div>
+            <div class="form-group">
+                <label for="bathrooms">Number of Bathrooms:</label>
+                <input type="number" name="bathrooms" class="form-control" value="{{ property.bathrooms }}" required>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" name="balcony" class="form-check-input" id="balcony" {% if property.balcony %} checked {% endif %}>
+                <label class="form-check-label" for="balcony">Balcony</label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" name="swimming_pool" class="form-check-input" id="swimming_pool" {% if property.swimming_pool %} checked {% endif %}>
+                <label class="form-check-label" for="swimming_pool">Swimming Pool</label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" name="playing_area" class="form-check-input" id="playing_area" {% if property.playing_area %} checked {% endif %}>
+                <label class="form-check-label" for="playing_area">Playing Area</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

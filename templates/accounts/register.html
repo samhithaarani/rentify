@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="register-form">
+            <h2 class="text-center">Register</h2>
+            <form method="post" id="registerForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    {{ form.username }}
+                    <div class="invalid-feedback">
+                        <i class="bi bi-exclamation-circle-fill"></i> Please enter a username.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    {{ form.email }}
+                    <div class="invalid-feedback">
+                        <i class="bi bi-exclamation-circle-fill"></i> Please enter a valid email address.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    {{ form.phone_number }}
+                </div>
+                <div class="form-group">
+                    <label for="password1">Password:</label>
+                    {{ form.password1 }}
+                    <div class="invalid-feedback" id="passwordFeedback">
+                        <i class="bi bi-exclamation-circle-fill"></i> Please enter a password.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password:</label>
+                    {{ form.password2 }}
+                    <div class="invalid-feedback" id="confirmPasswordFeedback">
+                        <i class="bi bi-exclamation-circle-fill"></i> Please confirm your password.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="user_type">User Type:</label>
+                    {{ form.user_type }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    /* Custom CSS for styling register form */
+    .register-form {
+        background-color: #e6f2ff; /* Light blue background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-form label {
+        font-weight: bold;
+    }
+
+    .register-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"],
+    .register-form select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .register-form button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff; /* Bootstrap primary color */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .register-form button[type="submit"]:hover {
+        background-color: #0056b3; /* Darker shade of primary color on hover */
+    }
+
+    .invalid-feedback {
+        display: none;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+
+    .invalid-feedback i {
+        margin-right: 5px;
+    }
+</style>
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        let formIsValid = true;
+        
+        // Clear previous validation messages
+        document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+
+        // Validate username
+        const username = document.getElementById('id_username');
+        if (!username.value.trim()) {
+            username.nextElementSibling.style.display = 'block';
+            formIsValid = false;
+        }
+
+        // Validate email
+        const email = document.getElementById('id_email');
+        if (!email.value.trim()) {
+            email.nextElementSibling.style.display = 'block';
+            formIsValid = false;
+        }
+
+        // Validate password
+        const password = document.getElementById('id_password1');
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        if (!password.value.trim()) {
+            passwordFeedback.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> Please enter a password.';
+            passwordFeedback.style.display = 'block';
+            formIsValid = false;
+        } else if (password.value.length < 8) {
+            passwordFeedback.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> Password must be at least 8 characters long.';
+            passwordFeedback.style.display = 'block';
+            formIsValid = false;
+        }
+
+        // Validate confirm password
+        const confirmPassword = document.getElementById('id_password2');
+        const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+        if (!confirmPassword.value.trim()) {
+            confirmPasswordFeedback.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> Please confirm your password.';
+            confirmPasswordFeedback.style.display = 'block';
+            formIsValid = false;
+        } else if (confirmPassword.value !== password.value) {
+            confirmPasswordFeedback.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> Passwords do not match.';
+            confirmPasswordFeedback.style.display = 'block';
+            formIsValid = false;
+        }
+
+        if (!formIsValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
